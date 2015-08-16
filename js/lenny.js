@@ -64,18 +64,21 @@
 
  	Lenny.prototype.startAnimation = function () {
  		var _this = this;
-		_this.randomFace(200);
 		_this.slideFromLeft();
+		_this.randomFace(200);
  		//_this.drawFace(_this.options.canvasWidth / 2, _this.options.canvasHeight / 2);
  	};
 
+	// TO DO: determine better way to do this
 	Lenny.prototype.slideFromLeft = function () {
 		var _this = this;
 		var move = function(x, y) {
 			setTimeout(function() {
-				_this.ctx.clearRect(0,0,_this.options.canvasWidth,_this.options.canvasHeight);
-				_this.drawFace( x, y)
+				_this.drawFace( x, y);
 			}, 3*x);
+			setTimeout(function() {
+				_this.clearFace(x, y);
+			}, 3*x+3);
 		};
 		for(var i = 0; i < _this.options.canvasWidth / 2; i++ ) {
 			move(i, _this.options.canvasHeight / 2);	
@@ -85,10 +88,11 @@
 	Lenny.prototype.randomFace = function(interval) {
 		var _this = this;
 		setInterval(function() { 
-			// clear the canvas
-			_this.ctx.clearRect(0,0,_this.options.canvasWidth,_this.options.canvasHeight);
 			// draw a new face at random x & y coords that are within canvas bounds
-			_this.drawFace(Math.random()*_this.options.canvasWidth,Math.random()*_this.options.canvasHeight);
+			var x = Math.random()*_this.options.canvasWidth;
+			var y = Math.random()*_this.options.canvasHeight;
+			_this.drawFace(x,y);
+			setTimeout(function() { _this.clearFace(x,y) }, interval);
 		},interval);
 	}
 
@@ -109,10 +113,30 @@
  		// Adjust so the face falls in the middle of the x/y coords
  		x = x - (width / 2);
 
+		_this.ctx.strokeStyle = _this.options.color;
  		_this.ctx.fillStyle = _this.options.color;
  		_this.ctx.fillText(_this.options.text, x, y);
  	}
 
+	Lenny.prototype.clearFace = function(x, y) {
+		var _this = this;
+
+ 		_this.ctx.font = _this.fontString;
+
+ 		var width = _this.ctx.measureText(_this.options.text).width;
+
+ 		// Adjust so the face falls in the middle of the x/y coords
+ 		x = x - (width / 2);
+
+		// outline stroke the text so it doesn't leave a black border
+		_this.ctx.strokeStyle = "white";
+		_this.ctx.lineWidth = 2;
+		_this.ctx.strokeText(_this.options.text, x, y);
+		// clear the rest of the text
+ 		_this.ctx.fillStyle = "white";
+ 		_this.ctx.fillText(_this.options.text, x, y);
+
+	};
 	
  	// LENNY PlUGIN DEFINITION
  	// =======================
