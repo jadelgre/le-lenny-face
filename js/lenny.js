@@ -100,7 +100,6 @@
  		var millisPerFrame = 17;
 
  		_this.addInterval(function() {
- 			_this.clearCanvas();
  			_this.physics_updatePosition(millisPerFrame);
  			_this.drawFace(_this.physics.X, _this.physics.Y);
  		}, millisPerFrame);
@@ -135,8 +134,6 @@
 		var _this = this;
 		
 		_this.addInterval(function() { 
-			_this.clearCanvas();			
-			// draw a new face at random x & y coords that are within canvas bounds
 			_this.drawFace(Math.random() * _this.options.canvasWidth, Math.random() * _this.options.canvasHeight);
 		}, interval);
 	};
@@ -146,7 +143,6 @@
 
 		var move = function(x, y) {
 			_this.addTimeout(function() {
-				_this.clearCanvas();
 				_this.drawFace(x, y);
 			}, 3 * x);
 		};
@@ -178,6 +174,8 @@
  		}
 
  		var _this = this;
+
+ 		_this.clearCanvas();
 
  		var width = _this.getTextWidth();
 
