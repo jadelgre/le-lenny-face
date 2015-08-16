@@ -64,9 +64,23 @@
 
  	Lenny.prototype.startAnimation = function () {
  		var _this = this;
-		_this.randomFace(100);
+		_this.randomFace(200);
+		_this.slideFromLeft();
  		//_this.drawFace(_this.options.canvasWidth / 2, _this.options.canvasHeight / 2);
  	};
+
+	Lenny.prototype.slideFromLeft = function () {
+		var _this = this;
+		var move = function(x, y) {
+			setTimeout(function() {
+				_this.ctx.clearRect(0,0,_this.options.canvasWidth,_this.options.canvasHeight);
+				_this.drawFace( x, y)
+			}, 3*x);
+		};
+		for(var i = 0; i < _this.options.canvasWidth / 2; i++ ) {
+			move(i, _this.options.canvasHeight / 2);	
+		}
+	};
 
 	Lenny.prototype.randomFace = function(interval) {
 		var _this = this;
