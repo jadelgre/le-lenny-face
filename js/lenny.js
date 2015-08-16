@@ -3,7 +3,7 @@
  * ========================================================================
  * The MIT License (MIT)
  * 
- * Copyright (c) [year] [fullname]
+ * Copyright (c) 2015 Jacob Adelgren & Justin Leniger 
  * 
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -64,9 +64,20 @@
 
  	Lenny.prototype.startAnimation = function () {
  		var _this = this;
-
- 		_this.drawFace(_this.options.canvasWidth / 2, _this.options.canvasHeight / 2);
+		_this.randomFace(100);
+ 		//_this.drawFace(_this.options.canvasWidth / 2, _this.options.canvasHeight / 2);
  	};
+
+	Lenny.prototype.randomFace = function(interval) {
+		var _this = this;
+		setInterval(function() { 
+			// clear the canvas
+			_this.ctx.clearRect(0,0,_this.options.canvasWidth,_this.options.canvasHeight);
+			// draw a new face at random x & y coords that are within canvas bounds
+			_this.drawFace(Math.random()*_this.options.canvasWidth,Math.random()*_this.options.canvasHeight);
+		},interval);
+	}
+
 
  	// Draws the face, centered on x/y coordinates, positive left and down from top left corner
  	Lenny.prototype.drawFace = function(x, y) {
@@ -88,6 +99,7 @@
  		_this.ctx.fillText(_this.options.text, x, y);
  	}
 
+	
  	// LENNY PlUGIN DEFINITION
  	// =======================
 
