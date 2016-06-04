@@ -36,7 +36,7 @@
 
  	Lenny.VERSION = '0.0.1';
 
- 	Lenny.MODES = ['bounce', 'random'];
+ 	Lenny.MODES = ['bounce', 'slideFromLeft', 'random'];
 
  	Lenny.DEFAULTS = {
  		fontName: "Arial",
@@ -141,15 +141,21 @@
 	Lenny.prototype.animateSlideFromLeft = function () {
 		var _this = this;
 
-		var move = function(x, y) {
-			_this.addTimeout(function() {
-				_this.drawFace(x, y);
-			}, 3 * x);
-		};
+		_this.addInterval(function() {
 
-		for (var i = 0; i < _this.options.canvasWidth / 2; i++ ) {
-			move(i, _this.options.canvasHeight / 2);	
-		}
+			var move = function(x, y) {
+				_this.addTimeout(function() {
+					_this.drawFace(x, y);
+				}, 3 * x);
+			};
+
+			var y = Math.floor( Math.random() * _this.options.canvasHeight ) + 1;
+
+			for (var i = 0; i < _this.options.canvasWidth / 2; i++ ) {
+				move(i, y);	
+			}
+		}, 1200);
+		
 	};
 
 	Lenny.prototype.clearCanvas = function () {
@@ -208,6 +214,9 @@
 		switch (_this.options.animationType) {
 			case 'bounce':
 				_this.animateBounce();
+				break;
+			case 'slideFromLeft':
+				_this.animateSlideFromLeft();
 				break;
 			case 'random':
 				_this.animateSlideFromLeft();
